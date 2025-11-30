@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title id="pageTitle">IG Followers Res | Pulse Tracker</title>
+  <style>
+    /* 引入字體 */
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Roboto+Mono:wght@400&display=swap');
+    
+    body { 
+        font-family: 'Noto Sans TC', 'Arial', sans-serif; 
+        margin: 0; 
+        padding: 60px 20px;
+        background: #fcfcfc;
+        color: #333;
+        line-height: 1.6;
+        min-height: 100vh;
+        position: relative; /* 用於定位語言選擇器 */
+    }
+
+    /* == 語言選擇器 (新位置和樣式 - FIXED 定位) == */
+    .lang-selector-wrapper {
+        position: fixed; /* 讓它固定在視窗右上角 */
+        top: 20px;
+        right: 20px;
+        display: flex;
+        align-items: center;
+        padding: 6px 15px;
+        border: 2px solid #ddd;
+        border-radius: 12px; /* 稍微圓潤一點 */
+        background: rgba(255, 255, 255, 0.9); /* 半透明背景 */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 增加輕微陰影 */
+        cursor: pointer;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        z-index: 1000; 
+    }
+    .lang-selector-wrapper:hover {
+        border-color: #aaa;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    .lang-icon {
+        font-size: 18px;
+        margin-right: 8px;
+        line-height: 1;
+    }
+    #lang {
+        padding: 0;
+        border: none;
+        font-size: 16px;
+        background: transparent;
+        appearance: none; 
+        cursor: pointer;
+        outline: none;
+    }
+
+    /* == 容器與卡片設計 == */
+    .container {
+        max-width: 900px;
+        margin: auto;
+    }
+    .card {
+        background: #fff;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin-bottom: 40px;
+    }
+
+    /* == 標題與分區 (H1 優化) == */
+    h1 { 
+        font-size: 44px; /* 增大 */
+        font-weight: 700; 
+        color: #C13584; /* 使用 IG 品牌色系 */
+        margin-bottom: 5px;
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05); /* 輕微陰影 */
+    }
+    h1 .icon {
+        color: #E1306C;
+        margin-right: 10px;
+    }
+    p {
+        color: #666;
+        font-size: 16px;
+        margin-top: 0;
+        margin-bottom: 30px;
+    }
+
+    .top-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 25px;
+        border-bottom: 2px solid #eee;
+    }
+
+    /* === Tab 導航樣式 === */
+    .tab-navigation {
+        display: flex;
+        margin-bottom: 0; 
+        border-bottom: none; 
+    }
+    .tab-button {
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 17px;
+        font-weight: 600;
+        color: #888;
+        border: none;
+        background: transparent;
+        border-bottom: 3px solid transparent;
+        transition: all 0.2s ease;
+        margin-right: 10px;
+        transform: translateY(2px);
+    }
+    .tab-button.active {
+        color: #E1306C;
+        border-bottom: 3px solid #E1306C;
+    }
+    
+    /* == Tab 內容與結果區的其餘樣式 == */
+    .tab-content {
+        display: none;
+        padding-top: 15px;
+    }
+    .tab-content.active {
+        display: block;
+    }
+    .input-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px; 
+        align-items: center;
+        margin-bottom: 15px; 
+    }
+    .file-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+    }
+    .file-input-wrapper input[type="file"] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .file-button {
+        padding: 12px 20px;
+        font-size: 16px;
+        font-weight: 500;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        background-color: #f5f5f5;
+        color: #555;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    #followers-btn.selected::before { content: '✅ '; color: #1A5E20; }
+    #following-btn.selected::before { content: '✅ '; color: #1A5E20; }
+
+
+    .file-button:hover {
+        background-color: #fff;
+        border-color: #aaa;
+    }
+    .file-button.selected {
+        border-color: #4CAF50;
+        background-color: #E8F5E9;
+        color: #1A5E20;
+    }
+    .analyze-button {
+        padding: 12px 30px;
+        font-size: 18px;
+        font-weight: 700;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        background-image: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D); 
+        transition: transform 0.2s, opacity 0.2s;
+        box-shadow: 0 4px 15px rgba(225, 48, 108, 0.4);
+        cursor: pointer;
+    }
+    .analyze-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(225, 48, 108, 0.6);
+    }
+    /* Analyze 按鈕 disabled 狀態優化 (視覺優化) */
+    .analyze-button:disabled {
+        background-image: linear-gradient(45deg, #a4b3f1, #c7c6f3, #e3cde7);
+        color: #fff;
+        cursor: not-allowed;
+        box-shadow: none;
+        transform: none;
+    }
+    .status { 
+        margin-top: 15px;
+        margin-bottom: 25px;
+        padding: 15px; 
+        border-radius: 8px; 
+        font-weight: 600; 
+        font-size: 15px;
+        border-left: 5px solid;
+    }
+    .status-info { border-left-color: #007bff; background: #e0f7fa; color: #007bff; }
+    .status-success { border-left-color: #4CAF50; background: #e8f5e9; color: #4CAF50; }
+    .status-error { border-left-color: #f44336; background: #ffebee; color: #f44336; }
+    .result-section {
+        margin-top: 30px; 
+        padding: 20px;
+        background: #f8f8f8;
+        border-radius: 12px;
+        border: 1px solid #eee;
+    }
+    .result-placeholder {
+        white-space: pre-wrap;
+        color: #999;
+        font-size: 14px;
+        padding: 20px 0; 
+        background: transparent;
+        border: none;
+    }
+    .result-header {
+        color: #E1306C; 
+        margin-top: 0; 
+        font-weight: 700;
+        font-size: 18px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 5px;
+    }
+    #result-tab1 ul {
+        background: #fff;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        padding: 15px 20px;
+        max-height: 350px;
+        overflow-y: auto;
+        list-style: none;
+    }
+    #result-tab1 ul li {
+        padding: 8px 10px; 
+        margin-bottom: 5px; 
+        border-bottom: 1px dashed #eee; 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center;
+    }
+    #result-tab1 ul li:last-child {
+        border-bottom: none;
+    }
+    .miyazaki-quote {
+        background: #f0f8ff; 
+        border-left: 5px solid #405DE6; 
+        padding: 20px; 
+        margin: 0; 
+        font-style: italic; 
+        color: #333; 
+        border-radius: 5px;
+        font-size: 18px;
+        line-height: 1.8;
+    }
+    
+    /* === 修正後的 Tab3 樣式 (隱私承諾) === */
+    #tab-discussion h3 {
+        color: #007bff; /* 藍色強調信任 */
+        font-weight: 700;
+        margin-top: 0;
+        font-size: 22px;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+    }
+    #tab-discussion ul {
+        list-style: none;
+        padding-left: 0;
+    }
+    #tab-discussion ul li {
+        margin-bottom: 15px;
+        padding: 10px;
+        background: #f0f9ff;
+        border-left: 5px solid #007bff;
+        border-radius: 4px;
+        font-weight: 500;
+    }
+    #tab-discussion ul li strong {
+        color: #007bff;
+        font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+<div class="lang-selector-wrapper">
+    <span class="lang-icon" id="langIcon">🌐</span> <select id="lang" onchange="updateLanguage()"></select>
+</div>
+
+<div class="container">
+    <h1 id="mainTitle">Instagram Follow Tracker</h1>
+    <p id="description">這是一個用於追蹤者比對的工具。</p>
+
+    <div class="card">
+        
+        <div class="top-controls">
+            <div class="tab-navigation" id="tab-nav">
+                <button class="tab-button active" onclick="switchTab('upload', this)" id="tab-upload-btn"></button>
+                <button class="tab-button" onclick="switchTab('howto', this)" id="tab-howto-btn"></button>
+                <button class="tab-button" onclick="switchTab('discussion', this)" id="tab-discussion-btn"></button>
+            </div>
+        </div>
+
+        <div id="tab-container">
+            
+            <div id="tab-upload" class="tab-content active">
+                
+                <div class="input-group">
+                    <div class="file-input-wrapper">
+                        <input type="file" id="followers" accept=".json" onchange="updateFileName('followers')"/>
+                        <button type="button" class="file-button" id="followers-btn"></button>
+                    </div>
+                    
+                    <div class="file-input-wrapper">
+                        <input type="file" id="following" accept=".json" onchange="updateFileName('following')"/>
+                        <button type="button" class="file-button" id="following-btn"></button>
+                    </div>
+
+                    <button class="analyze-button" onclick="analyze()" id="analyze-btn"></button>
+                </div> 
+                
+                <div id="status" class="status status-info"></div>
+                
+                <div class="result-section">
+                    <h2 class="result-header" id="tab1-result-title">結果</h2>
+                    <div id="result-tab1">
+                        <p id="result-initial-message" class="result-placeholder"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-howto" class="tab-content">
+                
+                <div class="result-section">
+                    <h2 class="result-header" id="tab2-steps-title"></h2>
+                    <div id="result-tab2-steps">
+                        </div>
+                </div>
+                
+                <div class="result-section" style="margin-top: 30px;">
+                    <h2 class="result-header" id="tab2-quote-title"></h2>
+                    <div id="result-tab2-quote">
+                        </div>
+                </div>
+            </div>
+
+             <div id="tab-discussion" class="tab-content">
+                
+                <div class="result-section">
+                    <h2 class="result-header" id="tab3-steps-title"></h2>
+                    <div id="result-tab3-steps">
+                        </div>
+                </div>
+                
+                <div class="result-section" style="margin-top: 30px;">
+                    <h2 class="result-header" id="tab3-quote-title"></h2>
+                    <div id="result-tab3-quote">
+                        </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="lang.js"></script>
+
+<script>
+
+let DOM_ELEMENTS = {};
+
+function extractFollowers(data) {
+  const values = [];
+  if (!ArrayOfStrings(data)) {
+    if (!Array.isArray(data)) {
+        throw new Error("Followers file format error (Root element is not an array).");
+    }
+    for (const item of data) {
+      if (item.string_list_data && item.string_list_data.length > 0) {
+        values.push(item.string_list_data[0].value);
+      }
+    }
+  } else {
+    values.push(...data);
+  }
+  return values;
+}
+
+function extractFollowing(data) {
+  const list = [];
+  if (typeof data !== 'object' || data === null) {
+     throw new Error("Following file format error (Root element is not an object).");
+  }
+  const items = data.relationships_following || data.following || []; 
+  
+  if (ArrayOfStrings(items)) {
+    list.push(...items);
+  } else {
+    for (const item of items) {
+      if (item.title) list.push(item.title);
+      if (item.list_data && item.list_data.length > 0 && item.list_data[0].value) {
+          list.push(item.list_data[0].value);
+      }
+    }
+  }
+  return list;
+}
+
+function ArrayOfStrings(arr) {
+    return Array.isArray(arr) && arr.every(item => typeof item === 'string');
+}
+
+async function readFile(file) {
+  const text = await file.text();
+  return JSON.parse(text);
+}
+
+function renderResultsList(list, titleKey, lang) {
+    const t = TEXTS[lang]; 
+    const titleText = t[titleKey];
+    
+    const totalCount = list.length; 
+    
+    let html = `
+        <h4 style="color: #444; margin: 15px 0 5px; font-weight: 600;">
+            ${titleText} (共 <span style="color: #E1306C; font-size: 1.1em; font-weight: 700;">${totalCount}</span> 人)
+        </h4>
+        <ul>`;
+
+    list.forEach(username => {
+        const igLink = `https://www.instagram.com/${username}`;
+        html += `
+            <li>
+                <span style="font-weight: 600;">${username}</span>
+                <a href="${igLink}" target="_blank" style="color: #405DE6; text-decoration: none; font-size: 14px;">
+                    ${t.viewIg} &rarr;
+                </a>
+            </li>`;
+    });
+    html += `</ul>`;
+    
+    return html;
+}
+
+function updateFileName(id) {
+    const fileInput = DOM_ELEMENTS[`${id}File`];
+    const fileButton = DOM_ELEMENTS[`${id}Btn`];
+    const lang = DOM_ELEMENTS.lang.value;
+    const t = TEXTS[lang];
+
+    if (fileInput.files.length > 0) {
+        const fileName = fileInput.files[0].name;
+        const prefix = (lang === 'zh') ? '已選取: ' : 'Selected: '; 
+        fileButton.textContent = prefix + (fileName.length > 25 ? fileName.substring(0, 22) + '...' : fileName);
+        fileButton.classList.add('selected');
+    } else {
+        fileButton.textContent = (id === 'followers') ? t.followersBtnDefault : t.followingBtnDefault;
+        fileButton.classList.remove('selected');
+    }
+}
+
+function updateLanguage() {
+    if (typeof TEXTS === 'undefined') {
+        console.error("Error: TEXTS variable not defined. Please ensure lang.js is correctly loaded.");
+        return; 
+    }
+
+    const lang = DOM_ELEMENTS.lang.value;
+    const t = TEXTS[lang];
+
+    document.getElementById('pageTitle').textContent = t.pageTitle;
+    document.getElementById('mainTitle').innerHTML = `<span class="icon">📸</span> ${t.mainTitle}`;
+    document.getElementById('description').textContent = t.description;
+    
+    DOM_ELEMENTS.tabUploadBtn.textContent = t.tabTitleUpload;
+    DOM_ELEMENTS.tabHowToBtn.textContent = t.tabTitleHowTo;
+    DOM_ELEMENTS.tabDiscussionBtn.textContent = t.tabTitleDiscussion; // 【修正】使用正確的元素 ID
+
+    document.getElementById('tab2-steps-title').textContent = t.tab2StepsTitle;
+    document.getElementById('result-tab2-steps').innerHTML = t.tab2text;
+
+    document.getElementById('tab2-quote-title').textContent = t.tab2QuoteTitle;
+    document.getElementById('result-tab2-quote').innerHTML = t.tab2Content;
+    
+    // 【修正】確保 Tab 3 的內容 ID 正確
+    document.getElementById('tab3-steps-title').textContent = t.tab3StepsTitle;
+    document.getElementById('result-tab3-steps').innerHTML = t.tab3text;
+
+    document.getElementById('tab3-quote-title').textContent = t.tab3QuoteTitle;
+    document.getElementById('result-tab3-quote').innerHTML = t.tab3Content; // 載入隱私承諾內容
+    
+    // document.getElementById('tab1-result-title').textContent = t.tab1ResultTitle;
+    // document.getElementById('tab3-result-title').textContent = t.tab3Title; // 這裡已被新結構取代
+
+    DOM_ELEMENTS.analyzeBtn.textContent = t.analyzeBtn;
+
+    updateFileName('followers');
+    updateFileName('following');
+    
+    const currentStatusText = DOM_ELEMENTS.status.textContent;
+    if (currentStatusText.includes("狀態") || currentStatusText.includes("Status") || currentStatusText === '') {
+        DOM_ELEMENTS.status.textContent = t.statusInitial;
+        DOM_ELEMENTS.status.className = "status status-info";
+    }
+    if (DOM_ELEMENTS.resultInitialMessage) {
+        DOM_ELEMENTS.resultInitialMessage.textContent = t.resultInitial;
+    }
+}
+
+function switchTab(tabId, clickedButton) {
+    // 【修正】確保所有 tab-content 都被正確隱藏
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.classList.remove('active');
+    });
+    // 透過傳入的 tabId 啟動正確的內容區塊
+    document.getElementById(`tab-${tabId}`).classList.add('active'); 
+    clickedButton.classList.add('active');
+}
+
+async function analyze() {
+  const lang = DOM_ELEMENTS.lang.value;
+  const t = TEXTS[lang];
+  
+  DOM_ELEMENTS.status.className = "status status-info";
+  DOM_ELEMENTS.status.textContent = t.statusAnalyzing;
+  DOM_ELEMENTS.analyzeBtn.disabled = true; 
+  document.getElementById('result-tab1').innerHTML = ''; 
+
+  const followersFile = DOM_ELEMENTS.followersFile.files[0];
+  const followingFile = DOM_ELEMENTS.followingFile.files[0];
+
+  if (!followersFile || !followingFile) {
+    DOM_ELEMENTS.status.className = "status status-error";
+    DOM_ELEMENTS.status.textContent = t.statusSelectFiles;
+    DOM_ELEMENTS.analyzeBtn.disabled = false;
+    return;
+  }
+
+  try {
+    const followersRawData = await readFile(followersFile);
+    const followingRawData = await readFile(followingFile);
+
+    const followerList = extractFollowers(followersRawData);
+    const followingList = extractFollowing(followingRawData);
+
+    const followerSet = new Set(followerList);
+    const followingSet = new Set(followingList);
+
+    const onlyFollowerResult = [...new Set(followerList.filter(x => !followingSet.has(x)))].sort();
+    const onlyFollowingResult = [...new Set(followingList.filter(x => !followerSet.has(x)))].sort();
+    
+    let finalHtml = ``;
+    
+    if (onlyFollowingResult.length > 0) {
+        finalHtml += renderResultsList(onlyFollowingResult, 'resultFollowing', lang);
+    }
+    
+    if (onlyFollowerResult.length > 0) {
+        finalHtml += renderResultsList(onlyFollowerResult, 'resultFollowers', lang);
+    }
+    
+    if (finalHtml === '') {
+        finalHtml = `<p style="color: #4CAF50; font-weight: bold; padding: 20px;">${lang === 'zh' ? '✅ 太棒了！你的追蹤關係是完美的對稱！' : '✅ Awesome! Your following relationship is perfectly symmetrical!'}</p>`;
+    }
+
+    document.getElementById('result-tab1').innerHTML = finalHtml; 
+
+    DOM_ELEMENTS.status.className = "status status-success";
+    DOM_ELEMENTS.status.textContent = t.statusAnalyzingSuccess(followerList.length, followingList.length);
+
+  } catch (err) {
+    DOM_ELEMENTS.status.className = "status status-error";
+    DOM_ELEMENTS.status.textContent = t.statusFileError(err.message);
+    console.error("分析失敗:", err);
+    document.getElementById('result-tab1').innerHTML = `<p style="color: #f44336; font-weight: bold; padding: 20px;">Error: ${err.message}</p>`;
+  } finally {
+    DOM_ELEMENTS.analyzeBtn.disabled = false;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    DOM_ELEMENTS = {
+        lang: document.getElementById('lang'),
+        langIcon: document.getElementById('langIcon'),
+        followersFile: document.getElementById('followers'),
+        followingFile: document.getElementById('following'),
+        followersBtn: document.getElementById('followers-btn'),
+        followingBtn: document.getElementById('following-btn'),
+        status: document.getElementById('status'),
+        analyzeBtn: document.getElementById('analyze-btn'),
+
+        // Tab 相關元素
+        tabUploadBtn: document.getElementById('tab-upload-btn'),
+        tabHowToBtn: document.getElementById('tab-howto-btn'),
+        tabDiscussionBtn: document.getElementById('tab-discussion-btn'),
+        resultInitialMessage: document.getElementById('result-initial-message'),
+    };
+    
+    // 設置語言選項 
+    const langSelect = DOM_ELEMENTS.lang;
+    langSelect.innerHTML = `
+        <option value="zh">繁體中文</option>
+        <option value="en">English</option>
+    `;
+    updateLanguage(); 
+});
+</script>
+</body>
+</html>
