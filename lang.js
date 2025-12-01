@@ -1,12 +1,3 @@
-const today = new Date();
-
-const formattedDate = today.toLocaleDateString('zh-TW', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    weekday: 'long'
-});
-
 const TEXTS = {
     zh: {
         pageTitle: "IG Report",
