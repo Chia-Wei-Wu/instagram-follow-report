@@ -1,3 +1,12 @@
+const today = new Date();
+
+const formattedDate = today.toLocaleDateString('zh-TW', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    weekday: 'long'
+});
+
 const TEXTS = {
     zh: {
         pageTitle: "IG Report",
@@ -5,7 +14,7 @@ const TEXTS = {
         description: "快速找出那些悄悄「自動退蹤的人」",
         tabTitleUpload: "📂 檔案上傳",
         tabTitleHowTo: "💡 如何使用",
-        tabTitleDiscussion: "💬 討論區",
+        tabTitleDiscussion: "🔒 安全性",
         tab1ResultTitle: "結果",
         tab2Title: "思考",
         tab3Title: "統計數字",
@@ -23,55 +32,63 @@ const TEXTS = {
         viewIg: "查看 IG",
         tab2text:`
             <div style="font-family: Arial, sans-serif;">
-                <h3 style="color: #E1306C; margin-top: 5px; font-weight: 700;">三步驟，快速從 IG 匯出檔案</h3>
-                <ol style="padding-left: 20px;">
-                    <li style="margin-bottom: 20px;">
-                        <strong>尋找指定檔案</strong>
-                        <p style="margin-top: 5px; margin-bottom: 5px;">
-                            在 Instagram 進入個人頁面，選右上角的<span style="font-weight: bold;">選單</span>(三條橫線）。
-                        </p>
-                        <p style="margin-top: 0px;">
-                            搜尋「下載」，點選下載資訊，建立匯出檔案，選擇個人檔案，匯出到裝置。
-                        </p>
-                    </li>
-                    <li style="margin-bottom: 20px;">
-                        <strong>自訂下載格式</strong>
-                        <ul style="list-style: disc; margin-top: 10px; padding-left: 20px;">
-                            <li style="margin-bottom: 5px;"><span style="font-weight: bold;">自訂資訊：</span>只選擇 <span style="color: #C13584; font-weight: bold;">「粉絲和追蹤對象」</span>，其餘項目請取消勾選。</li>
-                            <li style="margin-bottom: 5px;"><span style="font-weight: bold;">日期範圍：</span>選擇 <span style="color: #C13584; font-weight: bold;">不限</span>。</li>
-                            <li><span style="font-weight: bold;">格式：</span>選擇 <span style="color: #C13584; font-weight: bold;">JSON</span>。</li>
-                        </ul>
-                        <p style="margin-top: 10px;">點選 <span style="font-weight: bold; color: #4CAF50;">「開始匯出」</span>。Instagram 會準備檔案並透過電子郵件通知您完成下載。</p>
-                    </li>
-                    <li style="margin-bottom: 20px;">
-                        <strong>上傳檔案</strong>
-                        <style="margin-top: 5px;">
-                            下載並解壓縮後，進入資料夾，並上傳以下檔案至指定位置：
-                        <ul style="list-style: disc; margin-top: 10px; padding-left: 20px;">
-                            <li>followers_1.json</li>
-                            <li>following.json</li>
-                        </ul>
-                    </li>
-                </ol>
+            <h3 style="color: #E1306C; margin-top: 5px; font-weight: 700;">三步驟 快速從 IG 匯出檔案</h3>
+            <ol style="padding-left: 20px;">
+                <li style="margin-bottom: 20px;">
+                    <strong>尋找指定檔案</strong>
+                    <p style="margin-top: 5px; margin-bottom: 5px;">在 Instagram 中進入個人頁面，選右上角的<span style="font-weight: bold;">選單</span> (≡)</p>
+                    <p style="margin-top: 0px;">搜尋「下載」，點下載資訊 → 建立匯出檔案 → 選擇個人檔案 → 匯出到裝置</p>
+                </li>
+                <li style="margin-bottom: 20px;">
+                    <strong>自訂下載格式</strong>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                        <tbody>
+                            <tr>
+                                <td style="padding: 5px 10px; border: 1px solid #ddd;">自訂資訊</td>
+                                <td style="padding: 5px 10px; border: 1px solid #ddd;">僅選擇「粉絲和追蹤對象」，其餘項目取消</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px 10px; border: 1px solid #ddd;">日期範圍</td>
+                                <td style="padding: 5px 10px; border: 1px solid #ddd;">不限</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px 10px; border: 1px solid #ddd;">格式</td>
+                                <td style="padding: 5px 10px; border: 1px solid #ddd;">JSON</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="margin-top: 10px;">點選 <span style="font-weight: bold; color: #4CAF50;">「開始匯出」</span>。Instagram 會準備檔案並透過電子郵件通知您完成下載</p>
+                </li>
+                <li style="margin-bottom: 20px;">
+                    <strong>上傳檔案</strong>
+                    <p style="margin-top: 5px;">下載並解壓縮後，上傳以下檔案至指定位置</p>
+                    <ul style="list-style: disc; margin-top: -30px; padding-left: 20px;">
+                        <li>followers_1.json</li>
+                        <li>following.json</li>
+                    </ul>
+                </li>
+            </ol>
             </div>
         `,
         tab2Content: `
             <blockquote class="miyazaki-quote">
-                人生就像一列單行的列車，路途上會有許多站，很難有人可以整趟陪著走完。當陪你的人要下車時，即使不捨，也該心存感激，然後勇敢揮手道別。
+                人生就像一列單行火車，路上會經過許多車站，但很難有人能整趟陪著走完。當陪你的人要下車時，即使不捨，也該心存感激，然後勇敢揮手道別。
                 <footer style="text-align: right; margin-top: 10px; font-style: normal; color: #777;">— 宮崎駿</footer>
             </blockquote>
         `,
         tab3text: `
-            <h3>數據安全</h3>
-            我們深知個人隱私的重要性。因此，關於您的 Instagram 數據，我們有以下說明:
-            <ul>
-                <li>本服務提供檢查詢功能，您無需上傳任何有關 IG 的帳號密碼或個人資料。</li>
-                <li>本服務不會記錄、儲存或分享任何與您的 IG 帳戶有關的個人資訊。</li>
-            </ul>
-            請安心使用，您的隱私是我們的首要考量。
+            <div style="font-family: Arial, sans-serif;">
+                <h3 style="color: #E1306C; margin-top: 5px; font-weight: 700;">數據安全</h3>
+                我們深知個人隱私的重要性，故本服務：
+                <ul>
+                    <li>僅提供查詢功能，無需上傳任何 IG 的帳號與密碼</li>
+                    <li>不會記錄、儲存或分享任何與您的 IG 帳戶有關的資訊</li>
+                </ul>
+                請安心使用，您的隱私是我們的首要考量！
+            </div>
         `,
         tab3Content: `
-            <p>哈囉</p>
+            <p style="text-align: center;">C.W, Wu &copy; 2025</p>
         `,
     },
     en: {
