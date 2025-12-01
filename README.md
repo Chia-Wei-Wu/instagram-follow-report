@@ -6,7 +6,7 @@ With just three steps, you can quickly identify who is not following you back.
 ![Demo](pic/demo.png)
 
 ## How to Use
-Four Steps to Quickly Compare Your Lists:
+Three Steps to Quickly Compare Your Lists:
 1. Find the Specified File
     - Go to your profile page in Instagram and tap the icon in the top right corner Menu (≡).
     - Google Download，click Download your information → Create export → Choose a profile → Expert to device.
@@ -20,7 +20,8 @@ Four Steps to Quickly Compare Your Lists:
 
 ## Results
 
-Here is the example of the result.
+Here is the simple example of the result.
+
 ![Results](pic/results.png)
 
 ## License
