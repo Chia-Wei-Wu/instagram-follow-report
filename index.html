@@ -257,7 +257,7 @@
                             </div> 
                             <div id="status" class="status status-info"></div>
                             <div class="result-section">
-                                <h2 class="result-header" id="tab1-result-title">結果</h2>
+                                <h2 class="result-header" id="tab1-result-title"></h2>
                                 <div id="result-tab1">
                                     <p id="result-initial-message" class="result-placeholder"></p>
                                 </div>
@@ -381,6 +381,8 @@
                     DOM_ELEMENTS.tabUploadBtn.textContent = t.tabTitleUpload;
                     DOM_ELEMENTS.tabHowToBtn.textContent = t.tabTitleHowTo;
                     DOM_ELEMENTS.tabDiscussionBtn.textContent = t.tabTitleDiscussion;
+
+                    document.getElementById('tab1-result-title').textContent = t.tab1ResultTitle;
 
                     document.getElementById('tab2-steps-title').textContent = t.tab2StepsTitle;
                     document.getElementById('result-tab2-steps').innerHTML = t.tab2text;

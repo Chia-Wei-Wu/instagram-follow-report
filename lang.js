@@ -2,7 +2,7 @@ const TEXTS = {
     zh: {
         pageTitle: "IG Report",
         mainTitle: "Instagram Follow Tracker",
-        description: "快速找出那些悄悄「自動退蹤的人」",
+        description: "快速找出那些悄悄「退蹤的人」",
         tabTitleUpload: "📂 檔案上傳",
         tabTitleHowTo: "💡 如何使用",
         tabTitleDiscussion: "🔒 安全性",
@@ -85,7 +85,7 @@ const TEXTS = {
     en: {
         pageTitle: "IG Report",
         mainTitle: "Instagram Follow Tracker",
-        description: "Quickly spot those who quietly unfollow you!",
+        description: "Quickly spot those who unfollow you!",
         tabTitleUpload: "📂 File Upload",
         tabTitleHowTo: "💡 How to Use",
         tabTitleDiscussion: "🔒 Privacy Policy",
