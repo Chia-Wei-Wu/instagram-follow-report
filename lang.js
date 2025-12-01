@@ -52,20 +52,16 @@ const TEXTS = {
                 </li>
                 <li style="margin-bottom: 20px;">
                     <strong>上傳檔案</strong>
-                    <p style="margin-top: 5px;">下載並解壓縮後，上傳以下檔案至指定位置</p>
-                    <ul style="list-style: disc; margin-top: -30px; padding-left: 20px;">
-                        <li>followers_1.json</li>
-                        <li>following.json</li>
+                    <p style="margin-top: 5px; margin-bottom: 5px;">下載並解壓縮後，點選 connections → followers_and_following → followers_1.json and following.json</p>
+                    <p style="margin-top: 0px;">上傳指定檔案到正確位置</p>
                     </ul>
                 </li>
                 <li style="margin-bottom: 20px;">
                     <strong>其他說明</strong>
-                    <ul style="list-style: disc; margin-top: -30px; padding-left: 20px;">
-                        <li>你的 Follower 或 Following 屬於關帳狀態，其帳號依舊會被顯示</li>
-                        <li>有其他問題，歡迎到
-                            <a href="https://github.com/Chia-Wei-Wu/instagram-follow-report/issues" target="_blank">「討論區」</a>留言，我們會盡快回覆
-                        </li>
-                    </ul>
+                    <p style="margin-top: 5px; margin-bottom: 5px;">你的 Follower 或 Following 屬於關帳狀態，其帳號依舊會被顯示</p>
+                    <p style="margin-top: 0px;">有其他問題，歡迎到
+                        <a href="https://github.com/Chia-Wei-Wu/instagram-follow-report/issues" target="_blank">「討論區」</a>留言，我們會盡快回覆
+                    </p>
                 </li>
             </ol>
             </div>
@@ -144,19 +140,15 @@ const TEXTS = {
                 </li>
                 <li style="margin-bottom: 20px;">
                     <strong>Upload File</strong>
-                    <p style="margin-top: 5px;">After downloading and unzipping, upload the following files to the designated location.</p>
-                    <ul style="list-style: disc; margin-top: -30px; padding-left: 20px;">
-                        <li>followers_1.json</li>
-                        <li>following.json</li>
-                    </ul>
+                    <p style="margin-top: 5px; margin-bottom: 5px;">After downloading and unzipping, navigate to the files connections → followers_and_following → followers_1.json and following.json.</p>
+                    <p style="margin-top: 0px;">Upload the following files to the designated location.</p>
                 </li>
                 <li style="margin-bottom: 20px;">
-                    <strong>Other Notes</trong>
-                    <ul style="list-style: disc; margin-top: -30px; padding-left: 20px;">
-                        <li>If your follower or following is in a deactivated state, their account will still be displayed.</li>
-                        <li>For any other questions, please visit
+                    <strong>Other Notes</strong>
+                        <p style="margin-top: 5px; margin-bottom: 5px;">If your follower or following is in a deactivated state, their account will still be displayed.</p>
+                        <p style="margin-top: 0px;"For any other questions, please visit
                             <a href="https://github.com/Chia-Wei-Wu/instagram-follow-report/issues" target="_blank"> discussion </a> ,and we will reply as soon as possible.
-                        </li>
+                        </p>
                     </ul>
                 </li>
             </ol>
