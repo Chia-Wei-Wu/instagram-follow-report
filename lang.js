@@ -58,6 +58,15 @@ const TEXTS = {
                         <li>following.json</li>
                     </ul>
                 </li>
+                <li style="margin-bottom: 20px;">
+                    <strong>其他說明</strong>
+                    <ul style="list-style: disc; margin-top: -30px; padding-left: 20px;">
+                        <li>你的 Follower 或 Following 屬於關帳狀態，其帳號依舊會被顯示</li>
+                        <li>有其他問題，歡迎到
+                            <a href="https://github.com/Chia-Wei-Wu/instagram-follow-report/issues" target="_blank">「討論區」</a>留言，我們會盡快回覆
+                        </li>
+                    </ul>
+                </li>
             </ol>
             </div>
         `,
