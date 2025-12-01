@@ -150,6 +150,15 @@ const TEXTS = {
                         <li>following.json</li>
                     </ul>
                 </li>
+                <li style="margin-bottom: 20px;">
+                    <strong>Other Notes</trong>
+                    <ul style="list-style: disc; margin-top: -30px; padding-left: 20px;">
+                        <li>If your follower or following is in a deactivated state, their account will still be displayed.</li>
+                        <li>For any other questions, please visit
+                            <a href="https://github.com/Chia-Wei-Wu/instagram-follow-report/issues" target="_blank"> discussion </a> ,and we will reply as soon as possible.
+                        </li>
+                    </ul>
+                </li>
             </ol>
             </div>
         `,
